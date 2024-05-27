@@ -39,17 +39,21 @@ namespace shortURL.Server.Controllers
                 Name = request.Name,
                 Email = request.Email,
                 Password = request.Password,// TODO: hash need
-                Roles = new List<Role>
+                UserRoles = new List<UserRole>
                 {
-                    new Role { Id = 1, Name = "User" }
+                    new UserRole { RoleId = 1 }
                 }
             };
-
             _context.Users.Add(newUser);
             await _context.SaveChangesAsync();
-            var roles = newUser.Roles.Select(r => r.Name).ToList();
 
-            return Ok(new { roles });
+            var userRoles = await _context.UserRoles
+                .Where(ur => ur.UserId == newUser.Id)
+                .Select(ur => ur.Role.Name)
+                .ToListAsync();
+
+
+            return Ok(new { userRoles });
         }
 
         [HttpPost("login")]
@@ -61,14 +65,15 @@ namespace shortURL.Server.Controllers
             }
 
             var user = await _context.Users
-                            .Include(u => u.Roles)
+                            .Include(u => u.UserRoles)
+                                .ThenInclude(ur => ur.Role)
                             .FirstOrDefaultAsync(u => u.Email == request.Email && u.Password == request.Password);
             if (user == null)
             {
                 return Unauthorized("Invalid email or password.");
             }
 
-            var roles = user.Roles.Select(r => r.Name).ToList();
+            var roles = user.UserRoles.Select(r => r.Role.Name).ToList();
 
 
             return Ok(new { roles });

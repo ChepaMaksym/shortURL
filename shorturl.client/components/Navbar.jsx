@@ -29,7 +29,7 @@ export default function Navbar() {
                             <Link className="nav-link" to="/table">Table</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/login">Login/Logout</Link>
+                            <Link className="nav-link" to="/login">Login</Link>
                         </li>
                     </ul>
                 </div>

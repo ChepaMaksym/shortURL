@@ -15,22 +15,12 @@ import Register from '../components/Register';
 
 
 function App() {
-    const[urls,setUrls] = useState([]);
-    useEffect(() => {
-        const fetchData = async() =>
-            {
-                let data = await fetchAllURL();
-                setUrls(data);
-            }
-        fetchData();
-    },
-    [urls]);
     return (
         <>
             <Navbar />
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/table" element={<Table urls={urls}/>} />
+                <Route path="/table" element={<Table/>} />
                 <Route path="/about" element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />

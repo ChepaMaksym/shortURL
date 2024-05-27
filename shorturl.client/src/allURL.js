@@ -1,11 +1,10 @@
 import axios from "axios";
-export const fetchAllURL= async() => 
-{
-    try{
-        var response = await axios.get('https://localhost:7043/api/UrlShortener');
+export const fetchAllURL = async () => {
+    try {
+        const response = await axios.get('https://localhost:7043/api/UrlShortener');
         return response.data;
-    }
-    catch(e){
-        console.error(e);
+    } catch (error) {
+        console.error(error);
+        return [];
     }
 }

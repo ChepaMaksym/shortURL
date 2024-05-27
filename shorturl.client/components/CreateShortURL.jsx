@@ -2,7 +2,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 
-export default function CreateShortURL()
+export default function CreateShortURL({ onUrlCreated })
 {
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -11,6 +11,7 @@ export default function CreateShortURL()
           await axios.post('https://localhost:7043/api/urlShortener', {
             originalUrl: event.target.fullUrl.value
           });
+          onUrlCreated();
         } catch (error) {
           console.error(error);
         }
